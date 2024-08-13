@@ -7,20 +7,21 @@ import 'material-react-toastify/dist/ReactToastify.css'
 
 import LoginForm from './pages/LoginForm'
 import React from 'react'
-import { useCookies } from 'react-cookie'
+import {useCookies} from 'react-cookie'
 import Layout from './pages/Layout'
 import Profile from './pages/Profile'
 import RegisterForm from './pages/RegisterForm'
+import router from "./routes/router";
+import {RouterProvider} from "react-router-dom";
+import ForgetPassword from "./pages/ForgetPassword";
 
 function App() {
-  const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
-  return (
-    <Layout>
-      {
-        cookies.access_token ? <Profile/> : <RegisterForm/>
-      }
-    </Layout>
-  )
+    const [cookies] = useCookies(['access_token', 'refresh_token'])
+    return (
+        <Layout>
+            <RouterProvider router={router}/>
+        </Layout>
+    )
 }
 
 export default App
