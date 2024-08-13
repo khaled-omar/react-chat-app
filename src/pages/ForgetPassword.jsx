@@ -3,7 +3,7 @@ import {
     Avatar,
     Box,
     Button,
-    Container,
+    Container, Grid, Link,
     TextField,
     Typography
 } from "@mui/material";
@@ -14,6 +14,7 @@ import {forgetPasswordSchema} from "../validations/schema";
 import {useMutation} from "@tanstack/react-query";
 import UserService from "../services/UserService";
 import {toast} from "material-react-toastify";
+import {Link as RouterLink} from "react-router-dom";
 
 
 function ForgetPassword() {
@@ -59,6 +60,18 @@ function ForgetPassword() {
                     {isSubmitting ? 'Submitting ...' : 'Sign In'}
                 </Button>
             </Box>
+            <Grid container sx={{mt: 2}}>
+                <Grid item xs>
+                    <Link component={RouterLink} to="/login" variant="body2">
+                        {'Already have an account? Sign In'}
+                    </Link>
+                </Grid>
+                <Grid item>
+                    <Link component={RouterLink} to="/register" variant="body2">
+                        {'Don\'t have an account? Sign Up'}
+                    </Link>
+                </Grid>
+            </Grid>
         </Box>
     </Container>)
 }
