@@ -12,6 +12,7 @@ const httpConfig = {
     'Accept-Language': 'en',
     'client-id': env.CLIENT_ID,
     'client-secret': env.CLIENT_SECRET,
+    'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
   },
 }
 

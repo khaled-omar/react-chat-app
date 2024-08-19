@@ -11,9 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {forgetPasswordSchema} from "../validations/schema";
-import {useMutation} from "@tanstack/react-query";
 import UserService from "../services/UserService";
-import {toast} from "material-react-toastify";
 import {Link as RouterLink} from "react-router-dom";
 
 

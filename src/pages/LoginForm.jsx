@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {toast} from 'material-react-toastify'
-import {Link as RouterLink} from 'react-router-dom'
+import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import {
     Avatar,
     Box,
@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import {useCookies} from 'react-cookie'
 import UserService from '../services/UserService'
+import {useAuthContext} from "../contexts/AuthContext";
 
 const schema = yup
     .object({
@@ -33,11 +34,15 @@ function LoginForm() {
         handleSubmit
     } = useForm({resolver: yupResolver(schema)})
     const [, setCookie] = useCookies(['access_token', 'refresh_token'])
+    const navigate = useNavigate();
 
-    const handleOnSuccess = (response) => {
-        setCookie('access_token', response.data.access_token)
-        setCookie('refresh_token', response.data.refresh_token)
+    const handleOnSuccess = async (response) => {
+        localStorage.setItem('access_token', response.data.access_token)
+        localStorage.setItem('refresh_token', response.data.refresh_token)
+        const responseUser = await UserService.me()
+        localStorage.setItem('current_user', responseUser)
         toast.success('User logged in successfully')
+        navigate('/')
     }
     const handleOnError = (error) => {
         toast.error('Invalid email or password')
@@ -48,7 +53,8 @@ function LoginForm() {
     }
 
     const onSubmit = async (data) => {
-        await UserService.login({'email': data.email, 'password': data.password}, handleOnSuccess, handleOnError)
+        let loginData = {'email': data.email, 'password': data.password, 'g-recaptcha-response': 'abcd'}
+        await UserService.login(loginData, handleOnSuccess, handleOnError)
     }
 
     return (<Container maxWidth="sm">
